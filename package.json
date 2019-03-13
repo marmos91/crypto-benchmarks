@@ -1,0 +1,49 @@
+{
+    "name": "crypto-benchmarks",
+    "version": "1.0.0",
+    "description": "Comparing Performance of JavaScript Cryptography Libraries",
+    "main": "index.js",
+    "scripts": {
+        "start": "webpack-dev-server --open",
+        "build": "webpack",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/marmos91/crypto-benchmarks.git"
+    },
+    "keywords": [
+        "crypto",
+        "test",
+        "benchmark"
+    ],
+    "author": "Marco Moschettini <marco.moschettini@cubbit.io>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/marmos91/crypto-benchmarks/issues"
+    },
+    "homepage": "https://github.com/marmos91/crypto-benchmarks#readme",
+    "dependencies": {
+        "@cubbit/enigma": "0.0.3",
+        "asmcrypto.js": "^2.3.2",
+        "benchmark": "^2.1.4",
+        "crypto-js": "^3.1.9-1",
+        "sjcl": "^1.0.8"
+    },
+    "devDependencies": {
+        "@types/benchmark": "^1.0.31",
+        "@types/crypto-js": "^3.1.43",
+        "@types/html-webpack-plugin": "^3.2.0",
+        "@types/node": "^11.11.3",
+        "@types/sjcl": "^1.0.28",
+        "@types/webpack": "^4.4.25",
+        "html-webpack-plugin": "^3.2.0",
+        "source-map-loader": "^0.2.4",
+        "ts-loader": "^5.3.3",
+        "ts-node": "^8.0.3",
+        "typescript": "^3.3.3333",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.2.3",
+        "webpack-dev-server": "^3.2.1"
+    }
+}
