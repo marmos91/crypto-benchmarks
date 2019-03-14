@@ -36,7 +36,7 @@ export async function hash_stream_benchmarks()
                     resolve();
                 });
             });
-        }))
+        }, 10))
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) => 
@@ -115,7 +115,7 @@ export async function hash_stream_benchmarks()
                     resolve();
                 });
             });
-        }))
+        }, 5))
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) => 
@@ -132,7 +132,7 @@ export async function hash_stream_benchmarks()
                     resolve();
                 });
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('Asmcrypto', () => 
         {
             return new Promise((resolve) => 
@@ -150,7 +150,7 @@ export async function hash_stream_benchmarks()
                     resolve();
                 });
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
@@ -160,7 +160,7 @@ export async function hash_stream_benchmarks()
                 cubbit_hash_stream.on('finish', resolve);
                 file_stream.pipe(cubbit_hash_stream);
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .run();
 
     const sha_big_context = draw_canvas();
