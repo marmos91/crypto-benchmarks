@@ -17,7 +17,7 @@ export class Suite
         return this;
     }
 
-    public async run()
+    public async run(): Promise<Suite>
     {
         let fastest: TestResult = {
             name: 'placeholder',
@@ -48,6 +48,8 @@ export class Suite
 
         console.log(`[${this._name}]: Fastest is`, fastest);
         console.log(`[${this._name}]: Slowest is`, slowest);
+
+        return this;
     }
 
     public dispose()
