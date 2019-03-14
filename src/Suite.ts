@@ -1,5 +1,13 @@
 import Test, {TestResult} from "./Test";
 
+interface SuiteResults
+{
+    name: string;
+    results: TestResult[];
+    fastest: TestResult;
+    slowest: TestResult;
+}
+
 export class Suite
 {
     private _name: string;
@@ -17,9 +25,11 @@ export class Suite
         return this;
     }
 
-    public async run(): Promise<Suite>
+    public async run(): Promise<SuiteResults>
     {
         console.log(`[${this._name}] Launching (please wait)...`);
+
+        const results: TestResult[] = [];
 
         let fastest: TestResult = {
             name: 'placeholder',
@@ -39,7 +49,7 @@ export class Suite
         {
             const result = await test.run();
             
-            console.log(result);
+            results.push(result);
 
             if(result.avg < fastest.avg)
                 fastest = result;
@@ -48,10 +58,14 @@ export class Suite
                 slowest = result;
         }
 
-        console.log(`[${this._name}]: Fastest is`, fastest);
-        console.log(`[${this._name}]: Slowest is`, slowest);
+        this.dispose();
 
-        return this;
+        return {
+            name: this._name,
+            results,
+            fastest,
+            slowest
+        };
     }
 
     public dispose()

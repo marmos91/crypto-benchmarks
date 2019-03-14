@@ -3,6 +3,7 @@ import {WebFileStream} from '@cubbit/web-file-stream';
 import * as AsmCrypto from 'asmcrypto.js';
 import * as CryptoJs from 'crypto-js';
 
+import {draw_canvas, draw_chart, loaded, loading} from '../ChartUtils';
 import {Suite} from '../Suite';
 import Test from '../Test';
 
@@ -13,17 +14,11 @@ export async function aes_stream_benchmarks()
     const iv = Enigma.Random.bytes(16);
     const key = Enigma.AES.create_key();
     const enigma_aes = new Enigma.AES({key: key});
-    // const console_stream = new Stream.Writable({
-    //     write: (chunk, _, callback) => 
-    //     {
-    //         console.log(chunk.toString('hex'));
-    //         callback();
-    //     }
-    // });
 
+    let loading_node = loading();
     const small_file = new File([new Uint8Array(1024 * 1024)], 'small_file');
 
-    await new Suite(`AES256 (small file stream)`)
+    let results = await new Suite(`AES256 (small file stream)`)
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) => 
@@ -77,12 +72,19 @@ export async function aes_stream_benchmarks()
                 file_stream.pipe(cubbit_aes_stream);// .pipe(console_stream);
             });
         }, 10))
-        .run()
-        .then((suite) => suite.dispose());
+        .run();
 
+    loaded(loading_node);
+
+    const aes_small_context = draw_canvas();
+    draw_chart(results.name, results.results, aes_small_context as CanvasRenderingContext2D);
+
+    console.log(results);
+
+    loading_node = loading();
     const large_file = new File([new Uint8Array(50 * 1024 * 1024)], 'large_file');
 
-    await new Suite(`AES256 (large file stream)`)
+    results = await new Suite(`AES256 (large file stream)`)
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) => 
@@ -119,7 +121,7 @@ export async function aes_stream_benchmarks()
                     resolve();
                 });
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
@@ -129,7 +131,13 @@ export async function aes_stream_benchmarks()
                 cubbit_aes_stream.on('finish', resolve);
                 file_stream.pipe(cubbit_aes_stream);
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
-        .run()
-        .then((suite) => suite.dispose());
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        .run();
+
+    loaded(loading_node);
+
+    const aes_large_context = draw_canvas();
+    draw_chart(results.name, results.results, aes_large_context as CanvasRenderingContext2D);
+
+    console.log(results);
 }

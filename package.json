@@ -27,10 +27,12 @@
         "@cubbit/enigma": "0.0.3",
         "@cubbit/web-file-stream": "^1.0.0",
         "asmcrypto.js": "^2.3.2",
+        "chart.js": "^2.8.0",
         "crypto-js": "^3.1.9-1",
         "sjcl": "^1.0.8"
     },
     "devDependencies": {
+        "@types/chart.js": "^2.7.48",
         "@types/crypto-js": "^3.1.43",
         "@types/html-webpack-plugin": "^3.2.0",
         "@types/lodash": "^4.14.123",

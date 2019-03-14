@@ -27,7 +27,9 @@ const configuration: webpack.Configuration = {
         filename: 'index_bundle.js'
     },
     plugins: [
-        new HtmlWebpackPlugin()
+        new HtmlWebpackPlugin({
+            template: 'public/index.html'
+        })
     ]
 };
 
