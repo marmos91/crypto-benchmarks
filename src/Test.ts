@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {EventEmitter} from 'events';
 
 export interface TestResult
 {
@@ -8,7 +9,7 @@ export interface TestResult
     avg: number;
 }
 
-export default class Test
+export default class Test extends EventEmitter
 {
     private _name: string;
     private _test: () => void;
@@ -16,6 +17,7 @@ export default class Test
 
     constructor(name: string, test: () => void, test_repetitions?: number)
     {
+        super();
         this._name =  name;
         this._test = test;
 
@@ -31,6 +33,7 @@ export default class Test
 
         for(let i = 0; i < this._test_repetitions; i++)
         {
+            this.emit('testing', i, this._test_repetitions);
             const start = performance.now();
             await this._test();
             const time = performance.now() - start;

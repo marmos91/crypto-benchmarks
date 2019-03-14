@@ -2,10 +2,12 @@ import Enigma from '@cubbit/enigma';
 import {sha_benchmarks} from './tests/SHA';
 import {aes_benchmarks} from './tests/AES';
 import {aes_stream_benchmarks} from './tests/AESStream';
+import {hash_stream_benchmarks} from './tests/HashStream';
 
 async function run_benchmarks()
 {
     await sha_benchmarks();
+    await hash_stream_benchmarks();
     await aes_benchmarks();
     await aes_stream_benchmarks();
 }

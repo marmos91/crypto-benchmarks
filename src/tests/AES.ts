@@ -19,19 +19,14 @@ export async function aes_benchmarks()
 
     const key = Enigma.AES.create_key();
     const iv = Enigma.Random.bytes(16);
+
     const enigma_aes = new Enigma.AES({key: key});
-    const sjcl_cipher = new Sjcl.cipher.aes([0, 0, 0, 0, 0, 0, 0, 0]);
-    const sjcl_iv = Sjcl.codec.utf8String.toBits(short_string);
     const asm_aes = new AsmCrypto.AES_GCM(key, iv);
 
     await new Suite(`AES256 (${short_length} bytes)`)
-    // .add(new Test('Sjcl', () => 
-    // {
-    //     Sjcl.mode.gcm.encrypt(sjcl_cipher, sjcl_iv, [0, 0, 0, 0, 0, 0, 0, 0]);
-    // }))
     .add(new Test('CryptoJS', () => 
     {
-        CryptoJs.AES.encrypt(short_string, key.toString());
+        CryptoJs.AES.encrypt(short_string, key.toString(), {iv: iv.toString()});
     }))
     .add(new Test('Asmcrypto', () => 
     {
@@ -45,10 +40,6 @@ export async function aes_benchmarks()
     .then((suite) => suite.dispose());
 
     await new Suite(`AES256 (${long_length} bytes)`)
-    // .add(new Test('Sjcl', async () => 
-    // {
-    //     Sjcl.mode.gcm.encrypt(sjcl_cipher, sjcl_iv, [0, 0, 0, 0, 0, 0, 0, 0]);
-    // }))
     .add(new Test('CryptoJS', () => 
     {
         CryptoJs.AES.encrypt(long_string, key.toString());

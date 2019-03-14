@@ -19,6 +19,8 @@ export class Suite
 
     public async run(): Promise<Suite>
     {
+        console.log(`[${this._name}] Launching (please wait)...`);
+
         let fastest: TestResult = {
             name: 'placeholder',
             max: Number.MAX_VALUE,
