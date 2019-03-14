@@ -105,7 +105,7 @@ export async function aes_stream_benchmarks()
                     resolve();
                 });
             });
-        }, 10).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 1).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('Asmcrypto', () => 
         {
             return new Promise((resolve) => 
