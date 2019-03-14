@@ -12,7 +12,7 @@ async function run_benchmarks()
     await hash_stream_benchmarks();
 }
 
-Enigma.init().then(async () => 
+Enigma.init().then(async () =>
 {
     console.log('Benchmarks started (each test is repeated 10000 times)');
 

@@ -22,9 +22,9 @@ export async function aes_benchmarks()
     const key = Enigma.AES.create_key();
     const iv = Enigma.Random.bytes(16);
 
-    const enigma_aes = new Enigma.AES({key: key});
+    const enigma_aes = new Enigma.AES();
+    await enigma_aes.init({key: key});
     const asm_aes = new AsmCrypto.AES_GCM(key, iv);
-
     const webcrypto_key = await self.crypto.subtle.importKey('raw', key.buffer, 'AES-GCM', false, ['encrypt']);
 
     let results = await new Suite(`AES256 (${short_length} bytes)`)
