@@ -25,7 +25,7 @@ export async function aes_benchmarks()
     const asm_aes = new AsmCrypto.AES_GCM(key, iv);
 
     await new Suite(`AES256 (${short_length} bytes)`)
-    // .add(new Test('Sjcl', async () => 
+    // .add(new Test('Sjcl', () => 
     // {
     //     Sjcl.mode.gcm.encrypt(sjcl_cipher, sjcl_iv, [0, 0, 0, 0, 0, 0, 0, 0]);
     // }))

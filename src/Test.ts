@@ -14,10 +14,13 @@ export default class Test
     private _test: () => void;
     private _test_repetitions = 10000;
 
-    constructor(name: string, test: () => void)
+    constructor(name: string, test: () => void, test_repetitions?: number)
     {
         this._name =  name;
         this._test = test;
+
+        if(test_repetitions)
+            this._test_repetitions = test_repetitions;
     }
 
     public async run(): Promise<TestResult>
