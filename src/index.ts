@@ -50,7 +50,7 @@ async function run_benchmarks()
     })).add(new Test('Asmcrypto', async () => 
     {
         asmcrypto_sha256.process(encoder.encode(long_string)).finish().reset();
-    })).add(new Test('Cubbit', async () => 
+    })).add(new Test('Enigma', async () => 
     {
         await Enigma.Hash.digest(long_string);
     }));

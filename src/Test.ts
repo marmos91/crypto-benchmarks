@@ -28,9 +28,9 @@ export default class Test
 
         for(let i = 0; i < this._test_repetitions; i++)
         {
-            const start = window.performance.now();
+            const start = performance.now();
             await this._test();
-            const time = window.performance.now() - start;
+            const time = performance.now() - start;
 
             if(time < min)
                 min = time;
