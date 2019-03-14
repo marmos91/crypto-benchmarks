@@ -20,9 +20,9 @@ export async function aes_benchmarks()
     const key = Enigma.AES.create_key();
     const iv = Enigma.Random.bytes(16);
 
-    const enigma_aes = new Enigma.AES({key: key});
+    const enigma_aes = new Enigma.AES();
+    await enigma_aes.init({key: key});
     const asm_aes = new AsmCrypto.AES_GCM(key, iv);
-
     const webcrypto_key = await self.crypto.subtle.importKey('raw', key.buffer, 'AES-GCM', false, ['encrypt']);
 
     await new Suite(`AES256 (${short_length} bytes)`)
@@ -40,7 +40,7 @@ export async function aes_benchmarks()
     }))
     .add(new Test('Enigma', async () =>
     {
-        await enigma_aes.encrypt(short_string);
+        await enigma_aes.encrypt(short_string, iv);
     }))
     .run()
     .then((suite) => suite.dispose());
@@ -60,7 +60,7 @@ export async function aes_benchmarks()
     }))
     .add(new Test('Enigma', async () =>
     {
-        await enigma_aes.encrypt(long_string);
+        await enigma_aes.encrypt(long_string, iv);
     }))
     .run()
     .then((suite) => suite.dispose());

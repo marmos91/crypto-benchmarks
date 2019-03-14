@@ -1,8 +1,9 @@
 import Enigma from '@cubbit/enigma';
-import {sha_benchmarks} from './tests/SHA';
+
 import {aes_benchmarks} from './tests/AES';
 import {aes_stream_benchmarks} from './tests/AESStream';
 import {hash_stream_benchmarks} from './tests/HashStream';
+import {sha_benchmarks} from './tests/SHA';
 
 async function run_benchmarks()
 {
@@ -12,7 +13,7 @@ async function run_benchmarks()
     await aes_stream_benchmarks();
 }
 
-Enigma.init().then(async () => 
+Enigma.init().then(async () =>
 {
     console.log('Benchmarks started (each test is repeated 10000 times)');
 

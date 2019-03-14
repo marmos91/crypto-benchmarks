@@ -24,7 +24,7 @@
     },
     "homepage": "https://github.com/marmos91/crypto-benchmarks#readme",
     "dependencies": {
-        "@cubbit/enigma": "0.0.3",
+        "@cubbit/enigma": "0.0.4",
         "@cubbit/web-file-stream": "^1.0.0",
         "asmcrypto.js": "^2.3.2",
         "crypto-js": "^3.1.9-1",
