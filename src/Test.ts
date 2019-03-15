@@ -7,6 +7,7 @@ export interface TestResult
     min: number;
     max: number;
     avg: number;
+    results: number[];
 }
 
 export default class Test extends EventEmitter
@@ -51,6 +52,7 @@ export default class Test extends EventEmitter
             name: this._name,
             min,
             max,
+            results: times,
             avg: _.mean(times)
         }
     }

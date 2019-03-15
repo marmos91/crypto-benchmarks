@@ -35,14 +35,16 @@ export class Suite
             name: 'placeholder',
             max: Number.MAX_VALUE,
             avg: Number.MAX_VALUE,
-            min: 0
+            min: 0,
+            results: []
         };
 
         let slowest: TestResult = {
             name: 'placeholder',
             max: 0,
             avg: 0,
-            min: 0
+            min: 0,
+            results: []
         };
 
         for(const test of this._tests)
