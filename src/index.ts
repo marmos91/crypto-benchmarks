@@ -6,10 +6,10 @@ import {hash_stream_benchmarks} from './tests/HashStream';
 
 async function run_benchmarks()
 {
-    await aes_benchmarks();
-    await sha_benchmarks();
     await aes_stream_benchmarks();
     await hash_stream_benchmarks();
+    await aes_benchmarks();
+    await sha_benchmarks();
 }
 
 Enigma.init().then(async () =>

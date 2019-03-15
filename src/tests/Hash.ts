@@ -23,7 +23,7 @@ export async function sha_benchmarks()
     const sjcl_sha256 = new Sjcl.hash.sha256();
     const asmcrypto_sha256 = new AsmCrypto.Sha256();
 
-    let results = await new Suite(`SHA256 (${short_length} bytes)`).add(new Test('Enigma', async () =>
+    let results = await new Suite(`SHA256 (${short_length} bytes) - 10K samples`).add(new Test('Enigma', async () =>
     {
         await Enigma.Hash.digest(short_string);
     })).add(new Test('CryptoJS', async () =>
@@ -50,7 +50,7 @@ export async function sha_benchmarks()
 
     loading_node = loading();
 
-    results = await new Suite(`SHA256 (${long_length} bytes)`)
+    results = await new Suite(`SHA256 (${long_length} bytes) - 10K samples`)
         .add(new Test('Enigma', async () =>
         {
             await Enigma.Hash.digest(long_string);

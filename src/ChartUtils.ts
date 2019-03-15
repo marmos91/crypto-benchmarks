@@ -44,7 +44,7 @@ export function draw_chart(label: string, results: TestResult[], canvas_context:
     for(const result of results)
     {
         labels.push(result.name);
-        data.push(1 / result.avg);
+        data.push(result.avg);
     }
 
     new Chart(canvas_context, {
@@ -70,7 +70,7 @@ export function draw_chart(label: string, results: TestResult[], canvas_context:
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 1,
             }]
         },
         options: {
@@ -79,7 +79,11 @@ export function draw_chart(label: string, results: TestResult[], canvas_context:
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    scaleLabel: {
+                        labelString: "mean computation time (µs)",
+                        display: true
+                    },
                 }]
             }
         }

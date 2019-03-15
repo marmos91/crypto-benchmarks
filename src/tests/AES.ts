@@ -27,7 +27,7 @@ export async function aes_benchmarks()
     const asm_aes = new AsmCrypto.AES_GCM(key, iv);
     const webcrypto_key = await self.crypto.subtle.importKey('raw', key.buffer, 'AES-GCM', false, ['encrypt']);
 
-    let results = await new Suite(`AES256 (${short_length} bytes)`)
+    let results = await new Suite(`AES256 (${short_length} bytes) - 10K samples`)
         .add(new Test('Enigma', async () =>
         {
             await enigma_aes.encrypt(short_string);
@@ -56,7 +56,7 @@ export async function aes_benchmarks()
 
     loading_node = loading();
 
-    results = await new Suite(`AES256 (${long_length} bytes)`)
+    results = await new Suite(`AES256 (${long_length} bytes) - 10K samples`)
         .add(new Test('Enigma', async () =>
         {
             await enigma_aes.encrypt(long_string);

@@ -19,7 +19,7 @@ export async function hash_stream_benchmarks()
 
     const small_file = new File([new Uint8Array(1024 * 1024)], 'small_file');
 
-    let results = await new Suite(`SHA256 (small file stream)`)
+    let results = await new Suite(`SHA256 (small file stream) - 10K samples`)
         .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
@@ -98,7 +98,7 @@ export async function hash_stream_benchmarks()
     loading_node = loading();
     const large_file = new File([new Uint8Array(50 * 1024 * 1024)], 'large_file');
 
-    results = await new Suite(`SHA256 (large file stream)`)
+    results = await new Suite(`SHA256 (large file stream) - 10K samples`)
         .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
