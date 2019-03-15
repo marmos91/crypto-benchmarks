@@ -14,7 +14,7 @@ export default class Test extends EventEmitter
 {
     private _name: string;
     private _test: () => void;
-    private _test_repetitions = 10000;
+    private _test_repetitions = 1000;
 
     constructor(name: string, test: () => void, test_repetitions?: number)
     {

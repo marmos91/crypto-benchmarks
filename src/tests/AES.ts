@@ -28,6 +28,10 @@ export async function aes_benchmarks()
     const webcrypto_key = await self.crypto.subtle.importKey('raw', key.buffer, 'AES-GCM', false, ['encrypt']);
 
     let results = await new Suite(`AES256 (${short_length} bytes)`)
+        .add(new Test('Enigma', async () =>
+        {
+            await enigma_aes.encrypt(short_string);
+        }))
         .add(new Test('CryptoJS', () =>
         {
             CryptoJs.AES.encrypt(short_string, key.toString(), {iv: iv.toString()});
@@ -40,10 +44,7 @@ export async function aes_benchmarks()
         {
             await self.crypto.subtle.encrypt({name: 'AES-GCM', iv, length: 128, tagLength: 128}, webcrypto_key, encoder.encode(short_string))
         }))
-        .add(new Test('Enigma', async () =>
-        {
-            await enigma_aes.encrypt(short_string);
-        }))
+        
         .run();
 
     loaded(loading_node);
@@ -56,6 +57,10 @@ export async function aes_benchmarks()
     loading_node = loading();
 
     results = await new Suite(`AES256 (${long_length} bytes)`)
+        .add(new Test('Enigma', async () =>
+        {
+            await enigma_aes.encrypt(long_string);
+        }))
         .add(new Test('CryptoJS', () =>
         {
             CryptoJs.AES.encrypt(long_string, key.toString());
@@ -67,10 +72,6 @@ export async function aes_benchmarks()
         .add(new Test('Webcrypto', async () =>
         {
             await self.crypto.subtle.encrypt({name: 'AES-GCM', iv, length: 128, tagLength: 128}, webcrypto_key, encoder.encode(long_string))
-        }))
-        .add(new Test('Enigma', async () =>
-        {
-            await enigma_aes.encrypt(long_string);
         }))
         .run();
 

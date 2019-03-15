@@ -20,21 +20,14 @@ export async function hash_stream_benchmarks()
     const small_file = new File([new Uint8Array(1024 * 1024)], 'small_file');
 
     let results = await new Suite(`SHA256 (small file stream)`)
-        .add(new Test('Sjcl', () => 
+        .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
             {
                 const file_stream = WebFileStream.create_read_stream(small_file);
-                file_stream.on('data', (chunk) => 
-                {
-                    sjcl_sha256.update(chunk);
-                });
-                file_stream.on('end', () => 
-                {
-                    sjcl_sha256.finalize();
-                    sjcl_sha256.reset();
-                    resolve();
-                });
+                const cubbit_hash_stream = Enigma.Hash.stream();
+                cubbit_hash_stream.on('finish', resolve);
+                file_stream.pipe(cubbit_hash_stream);
             });
         }, 10))
         .add(new Test('CryptoJS', () => 
@@ -77,14 +70,21 @@ export async function hash_stream_benchmarks()
                 });
             });
         }, 10))
-        .add(new Test('Enigma', () => 
+        .add(new Test('Sjcl', () => 
         {
             return new Promise((resolve) => 
             {
                 const file_stream = WebFileStream.create_read_stream(small_file);
-                const cubbit_hash_stream = Enigma.Hash.stream();
-                cubbit_hash_stream.on('finish', resolve);
-                file_stream.pipe(cubbit_hash_stream);
+                file_stream.on('data', (chunk) => 
+                {
+                    sjcl_sha256.update(chunk);
+                });
+                file_stream.on('end', () => 
+                {
+                    sjcl_sha256.finalize();
+                    sjcl_sha256.reset();
+                    resolve();
+                });
             });
         }, 10))
         .run();
@@ -99,23 +99,16 @@ export async function hash_stream_benchmarks()
     const large_file = new File([new Uint8Array(50 * 1024 * 1024)], 'large_file');
 
     results = await new Suite(`SHA256 (large file stream)`)
-        .add(new Test('Sjcl', () => 
+        .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) => 
             {
                 const file_stream = WebFileStream.create_read_stream(large_file);
-                file_stream.on('data', (chunk) => 
-                {
-                    sjcl_sha256.update(chunk);
-                });
-                file_stream.on('end', () => 
-                {
-                    sjcl_sha256.finalize();
-                    sjcl_sha256.reset();
-                    resolve();
-                });
+                const cubbit_hash_stream = Enigma.Hash.stream();
+                cubbit_hash_stream.on('finish', resolve);
+                file_stream.pipe(cubbit_hash_stream);
             });
-        }, 5))
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) => 
@@ -151,16 +144,23 @@ export async function hash_stream_benchmarks()
                 });
             });
         }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
-        .add(new Test('Enigma', () => 
+        .add(new Test('Sjcl', () => 
         {
             return new Promise((resolve) => 
             {
                 const file_stream = WebFileStream.create_read_stream(large_file);
-                const cubbit_hash_stream = Enigma.Hash.stream();
-                cubbit_hash_stream.on('finish', resolve);
-                file_stream.pipe(cubbit_hash_stream);
+                file_stream.on('data', (chunk) => 
+                {
+                    sjcl_sha256.update(chunk);
+                });
+                file_stream.on('end', () => 
+                {
+                    sjcl_sha256.finalize();
+                    sjcl_sha256.reset();
+                    resolve();
+                });
             });
-        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
+        }, 5))
         .run();
 
     const sha_big_context = draw_canvas();

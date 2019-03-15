@@ -23,10 +23,9 @@ export async function sha_benchmarks()
     const sjcl_sha256 = new Sjcl.hash.sha256();
     const asmcrypto_sha256 = new AsmCrypto.Sha256();
 
-    let results = await new Suite(`SHA256 (${short_length} bytes)`).add(new Test('Sjcl', async () => 
+    let results = await new Suite(`SHA256 (${short_length} bytes)`).add(new Test('Enigma', async () =>
     {
-        sjcl_sha256.update(short_string).finalize();
-        sjcl_sha256.reset();
+        await Enigma.Hash.digest(short_string);
     })).add(new Test('CryptoJS', async () =>
     {
         CryptoJs.SHA256(short_string);
@@ -36,9 +35,10 @@ export async function sha_benchmarks()
     })).add(new Test('Webcrypto', async () =>
     {
         await self.crypto.subtle.digest({name: 'SHA-256'}, encoder.encode(short_string));
-    })).add(new Test('Enigma', async () =>
+    })).add(new Test('Sjcl', async () => 
     {
-        await Enigma.Hash.digest(short_string);
+        sjcl_sha256.update(short_string).finalize();
+        sjcl_sha256.reset();
     })).run();
 
     loaded(loading_node);
@@ -51,10 +51,9 @@ export async function sha_benchmarks()
     loading_node = loading();
 
     results = await new Suite(`SHA256 (${long_length} bytes)`)
-        .add(new Test('Sjcl', async () => 
+        .add(new Test('Enigma', async () =>
         {
-            sjcl_sha256.update(long_string).finalize();
-            sjcl_sha256.reset();
+            await Enigma.Hash.digest(long_string);
         })).add(new Test('CryptoJS', async () =>
         {
             CryptoJs.SHA256(long_string);
@@ -64,9 +63,10 @@ export async function sha_benchmarks()
         })).add(new Test('Webcrypto', async () =>
         {
             await self.crypto.subtle.digest({name: 'SHA-256'}, encoder.encode(long_string));
-        })).add(new Test('Enigma', async () =>
+        })).add(new Test('Sjcl', async () => 
         {
-            await Enigma.Hash.digest(long_string);
+            sjcl_sha256.update(long_string).finalize();
+            sjcl_sha256.reset();
         })).run();
 
     loaded(loading_node);

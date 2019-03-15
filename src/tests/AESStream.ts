@@ -21,6 +21,18 @@ export async function aes_stream_benchmarks()
     const small_file = new File([new Uint8Array(1024 * 1024)], 'small_file');
 
     let results = await new Suite(`AES256 (small file stream)`)
+        .add(new Test('Enigma', () =>
+        {
+            return new Promise((resolve) =>
+            {
+                const file_stream = WebFileStream.create_read_stream(small_file);
+                const cubbit_aes_stream = enigma_aes.encrypt_stream(iv);
+
+                cubbit_aes_stream.on('finish', resolve);
+
+                file_stream.pipe(cubbit_aes_stream);// .pipe(console_stream);
+            });
+        }, 10))
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) =>
@@ -62,18 +74,6 @@ export async function aes_stream_benchmarks()
                 });
             });
         }, 10))
-        .add(new Test('Enigma', () =>
-        {
-            return new Promise((resolve) =>
-            {
-                const file_stream = WebFileStream.create_read_stream(small_file);
-                const cubbit_aes_stream = enigma_aes.encrypt_stream(iv);
-
-                cubbit_aes_stream.on('finish', resolve);
-
-                file_stream.pipe(cubbit_aes_stream);// .pipe(console_stream);
-            });
-        }, 10))
         .run();
 
     loaded(loading_node);
@@ -87,6 +87,16 @@ export async function aes_stream_benchmarks()
     const large_file = new File([new Uint8Array(50 * 1024 * 1024)], 'large_file');
 
     results = await new Suite(`AES256 (large file stream)`)
+        .add(new Test('Enigma', () => 
+        {
+            return new Promise((resolve) =>
+            {
+                const file_stream = WebFileStream.create_read_stream(large_file);
+                const cubbit_aes_stream = enigma_aes.encrypt_stream(iv);
+                cubbit_aes_stream.on('finish', resolve);
+                file_stream.pipe(cubbit_aes_stream);
+            });
+        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .add(new Test('CryptoJS', () => 
         {
             return new Promise((resolve) =>
@@ -122,16 +132,6 @@ export async function aes_stream_benchmarks()
                     asm_aes.AES_GCM_Encrypt_finish();
                     resolve();
                 });
-            });
-        }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
-        .add(new Test('Enigma', () => 
-        {
-            return new Promise((resolve) =>
-            {
-                const file_stream = WebFileStream.create_read_stream(large_file);
-                const cubbit_aes_stream = enigma_aes.encrypt_stream(iv);
-                cubbit_aes_stream.on('finish', resolve);
-                file_stream.pipe(cubbit_aes_stream);
             });
         }, 5).on('testing', (n, total) => console.log('Testing', n, 'of', total)))
         .run();
