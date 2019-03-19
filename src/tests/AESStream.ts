@@ -20,7 +20,7 @@ export async function aes_stream_benchmarks()
     
     const small_file = new File([new Uint8Array(1024 * 1024)], 'small_file');
 
-    let results = await new Suite(`AES256 (small file stream) - 10K samples`)
+    let results = await new Suite(`AES256 (1MB file) - 10K samples`)
         .add(new Test('Enigma', () =>
         {
             return new Promise((resolve) =>
@@ -86,7 +86,7 @@ export async function aes_stream_benchmarks()
     loading_node = loading();
     const large_file = new File([new Uint8Array(50 * 1024 * 1024)], 'large_file');
 
-    results = await new Suite(`AES256 (large file stream) - 10K samples`)
+    results = await new Suite(`AES256 (50MB file) - 10K samples`)
         .add(new Test('Enigma', () => 
         {
             return new Promise((resolve) =>
