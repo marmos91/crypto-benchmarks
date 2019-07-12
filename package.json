@@ -39,7 +39,7 @@
         "@types/sjcl": "^1.0.28",
         "@types/webpack": "^4.4.25",
         "html-webpack-plugin": "^3.2.0",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.13",
         "source-map-loader": "^0.2.4",
         "ts-loader": "^5.3.3",
         "ts-node": "^8.0.3",
